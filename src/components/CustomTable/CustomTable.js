@@ -14,7 +14,10 @@ const CustomTable = ({ columns, rows }) => {
   const [visibleColumns, setVisibleColumns] = useState(
     columns.map((col) => col.field)
   );
-  const [sortConfig, setSortConfig] = useState({ field: null, direction: null });
+  const [sortConfig, setSortConfig] = useState({
+    field: null,
+    direction: null,
+  });
   const [filters, setFilters] = useState({});
   const [showColumnSelector, setShowColumnSelector] = useState(false);
   const [activeFilterMenu, setActiveFilterMenu] = useState(null);
@@ -24,9 +27,7 @@ const CustomTable = ({ columns, rows }) => {
 
   const toggleColumn = (field) => {
     setVisibleColumns((prev) =>
-      prev.includes(field)
-        ? prev.filter((f) => f !== field)
-        : [...prev, field]
+      prev.includes(field) ? prev.filter((f) => f !== field) : [...prev, field]
     );
   };
 
@@ -55,25 +56,34 @@ const CustomTable = ({ columns, rows }) => {
     );
   }, [filters, rows, columns]);
 
-  const sortedRows = useMemo(() => {
-    if (!sortConfig.field) return filteredRows;
-    return [...filteredRows].sort((a, b) => {
-      const aValue =
-        columns.find((c) => c.field === sortConfig.field)?.valueGetter?.({ row: a }) ??
-        a[sortConfig.field];
-      const bValue =
-        columns.find((c) => c.field === sortConfig.field)?.valueGetter?.({ row: b }) ??
-        b[sortConfig.field];
+ const sortedRows = useMemo(() => {
+  if (!sortConfig.field) return filteredRows;
 
-      if (aValue === undefined || bValue === undefined) return 0;
+  const getSortValue = (row) => {
+    const col = columns.find((c) => c.field === sortConfig.field);
+    if (!col) return null;
 
-      const comparison =
-        typeof aValue === "number"
-          ? aValue - bValue
-          : String(aValue).localeCompare(String(bValue));
-      return sortConfig.direction === "asc" ? comparison : -comparison;
-    });
-  }, [filteredRows, sortConfig, columns]);
+    let value = col.valueGetter ? col.valueGetter({ row }) : row[sortConfig.field];
+
+    // Normalize for sorting
+    const num = parseFloat(value);
+    if (!isNaN(num) && isFinite(value)) return num;
+
+    const date = new Date(value);
+    if (!isNaN(date.getTime())) return date.getTime();
+
+    return String(value).toLowerCase(); // fallback to string compare
+  };
+
+  return [...filteredRows].sort((a, b) => {
+    const aValue = getSortValue(a);
+    const bValue = getSortValue(b);
+
+    if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+    return 0;
+  });
+}, [filteredRows, sortConfig, columns]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -84,10 +94,7 @@ const CustomTable = ({ columns, rows }) => {
         setShowColumnSelector(false);
       }
 
-      if (
-        filterMenuRef.current &&
-        !filterMenuRef.current.contains(e.target)
-      ) {
+      if (filterMenuRef.current && !filterMenuRef.current.contains(e.target)) {
         setActiveFilterMenu(null);
       }
     };
@@ -109,16 +116,34 @@ const CustomTable = ({ columns, rows }) => {
           </span>
 
           {showColumnSelector && (
-            <div className="column-selector">
+            <div
+              className="column-selector"
+            >
               {columns.map((col) => (
-                <label key={col.field}>
+                <div 
+                style={{
+                  width: '100%',
+                  display:'flex',
+                  gap: "15px",
+                  padding: "0 15px"
+                }}
+                className="hover-box"
+                >
                   <input
                     type="checkbox"
                     checked={visibleColumns.includes(col.field)}
                     onChange={() => toggleColumn(col.field)}
+                    style={{
+                        width: '12px',
+                        margin: 0,
+                    }}
                   />
-                  {col.headerName || col.field}
-                </label>
+                  <label
+                    key={col.field}
+                  >
+                    {col.headerName || col.field}
+                  </label>
+                </div>
               ))}
             </div>
           )}
@@ -171,7 +196,9 @@ const CustomTable = ({ columns, rows }) => {
                               />{" "}
                               Ascending
                             </button>
-                            <button onClick={() => applySort(col.field, "desc")}>
+                            <button
+                              onClick={() => applySort(col.field, "desc")}
+                            >
                               <FontAwesomeIcon
                                 icon={
                                   ["amount", "date"].includes(col.field)
