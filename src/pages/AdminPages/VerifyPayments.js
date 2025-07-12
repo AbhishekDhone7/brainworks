@@ -79,9 +79,11 @@ function VerifyPayments() {
       field: "month",
       headerName: "Month",
       flex: 1,
+      type: "date",
       valueGetter: ({ row }) =>
         new Date(row.month).toLocaleDateString("en-IN"),
     },
+
     {
       field: "amount",
       headerName: "Amount",

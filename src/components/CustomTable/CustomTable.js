@@ -57,14 +57,19 @@ const CustomTable = ({ columns, rows }) => {
   };
 
   const handleResize = (e) => {
-    if (!resizingColRef.current) return;
-    const { startX, startWidth, field } = resizingColRef.current;
-    const delta = e.clientX - startX;
-    const newWidth = Math.max(60, startWidth + delta);
-    const updatedWidths = { ...columnWidths, [field]: newWidth };
-    setColumnWidths(updatedWidths);
-    localStorage.setItem("customTableWidths", JSON.stringify(updatedWidths));
-  };
+  if (!resizingColRef.current) return;
+
+  const { startX, startWidth, field } = resizingColRef.current;
+  const delta = e.clientX - startX;
+  const minWidth = 200;
+  const maxWidth = 400;
+  const newWidth = Math.min(Math.max(minWidth, startWidth + delta), maxWidth);
+
+  const updatedWidths = { ...columnWidths, [field]: newWidth };
+  setColumnWidths(updatedWidths);
+  localStorage.setItem("customTableWidths", JSON.stringify(updatedWidths));
+};
+
 
   const stopResize = () => {
     document.removeEventListener("mousemove", handleResize);

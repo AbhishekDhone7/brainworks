@@ -15,7 +15,8 @@ import AdminLoginPage from "./pages/LoginPage/AdminLogin";
 import AdminRegister from "./pages/Register/AdminRegister";
 
 // Student Pages
-import Dashboard from "./pages/UserPages/Dashboard";
+import UserDashboard from "./pages/UserPages/Dashbord/Dashboard";
+import StudentCource from "./pages/UserPages/StudentCource";
 import AddPayment from "./pages/UserPages/UploadPayment";
 import PaymentSlips from "./pages/UserPages/PaymentSlips";
 import ProfilePage from "./pages/UserPages/Profile";
@@ -52,7 +53,15 @@ const App = () => {
             path="/student/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <UserDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student/courses"
+            element={
+              <ProtectedRoute>
+                <StudentCource />
               </ProtectedRoute>
             }
           />

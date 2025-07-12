@@ -1,0 +1,42 @@
+.user-dashboard {
+  padding: 2rem;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.welcome-box {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.welcome-box h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-card:hover {
+  background: #007bff;
+  color: white;
+  transform: translateY(-4px);
+}
+
+.dashboard-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
