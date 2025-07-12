@@ -6,7 +6,7 @@ section {
   }
   
   section .form_data {
-    max-width: 40%;
+    max-width: 650px;
     margin: 25px auto;
     padding: 35px 10px;
     box-shadow: 0 0 15px -2px #475874;

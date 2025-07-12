@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
 };
 
   useEffect(() => {
-    fetchAuth("auto"); // Automatically check both types on load
+    fetchAuth("auto");
   }, []);
 
   const login = (userData, isAdmin = false) => {
