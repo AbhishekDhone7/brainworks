@@ -1,0 +1,29 @@
+.courses {
+  background: #eef1f4;
+  padding: 4rem 1rem;
+}
+
+.courses h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.courses-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.course-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  flex: 1 1 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.course-card .price {
+  color: green;
+  font-weight: bold;
+}

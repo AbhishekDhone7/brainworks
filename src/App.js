@@ -3,7 +3,6 @@ import { AuthProvider } from "./context/AuthContext";
 
 // Common Components
 import HeaderDiv from "./components/Header";
-import Navbar from "./components/Navbar";
 
 // Auth Guards
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -28,26 +27,25 @@ import ManageStudents from "./pages/AdminPages/ManageStudents";
 import VerifyPayments from "./pages/AdminPages/VerifyPayments";
 
 // Other Pages
-import Home from "./pages/OtherPages/Home";
-import About from "./pages/OtherPages/About";
-import Support from "./pages/OtherPages/Support";
 import ErrorPage from "./pages/ErrorPage";
+import HomePage from "./pages/OtherPages/HomePage/Home";
+import AboutPage from "./pages/OtherPages/About/About";
+import SupportPage from "./pages/OtherPages/Support/Support";
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
         <HeaderDiv />
-        {/* <Navbar /> if needed later */}
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/admin_login" element={<AdminLoginPage />} />
           <Route path="/admin_register" element={<AdminRegister />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/support" element={<Support />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/support" element={<SupportPage />} />
 
           {/* Protected Student Routes */}
           <Route

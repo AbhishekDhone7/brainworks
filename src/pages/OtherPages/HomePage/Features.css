@@ -1,0 +1,23 @@
+.features {
+  background: #fff;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.features h2 {
+  margin-bottom: 2rem;
+}
+
+.features-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.feature {
+  background: #f1f3f5;
+  padding: 1.5rem;
+  border-radius: 8px;
+  flex: 1 1 250px;
+}
