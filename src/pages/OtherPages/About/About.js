@@ -1,12 +1,10 @@
 import React from "react";
 import "./AboutPage.css";
-import Header from "../HomePage/Header";
 import Footer from "../HomePage/Footer";
 
 const AboutPage = () => {
   return (
     <>
-      <Header />
       <div className="about">
         <div className="container">
           <h1>About BRAINWORKS</h1>

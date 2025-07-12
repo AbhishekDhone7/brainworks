@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./VerifyPayments.css";
 import CustomTable from "../../components/CustomTable/CustomTable";
+import "./VerifyPayments.css";
 
 function VerifyPayments() {
   const [payments, setPayments] = useState([]);
@@ -53,23 +53,6 @@ function VerifyPayments() {
       flex: 1,
       valueGetter: ({ row }) => row.userId?.phone || "",
     },
-    // {
-    //   field: "profileImage",
-    //   headerName: "Profile",
-    //   flex: 1,
-    //   renderCell: ({ row }) =>
-    //     row.userId?.profileImage ? (
-    //       <img
-    //         src={`http://localhost:8009/uploads/${row.userId.profileImage}`}
-    //         alt="profile"
-    //         height={40}
-    //         width={40}
-    //         style={{ borderRadius: "50%", objectFit: "cover" }}
-    //       />
-    //     ) : (
-    //       "N/A"
-    //     ),
-    // },
     {
       field: "paymentType",
       headerName: "Payment Type",
@@ -79,11 +62,9 @@ function VerifyPayments() {
       field: "month",
       headerName: "Month",
       flex: 1,
-      type: "date",
       valueGetter: ({ row }) =>
         new Date(row.month).toLocaleDateString("en-IN"),
     },
-
     {
       field: "amount",
       headerName: "Amount",
@@ -105,6 +86,7 @@ function VerifyPayments() {
             href={`http://localhost:8009/uploads/payments/${row.screenshot}`}
             target="_blank"
             rel="noreferrer"
+            className="screenshot-link"
           >
             View
           </a>
@@ -123,11 +105,17 @@ function VerifyPayments() {
       flex: 1,
       renderCell: ({ row }) =>
         row.status === "pending" ? (
-          <div style={{ display: "flex", gap: "6px" }}>
-            <button onClick={() => updateStatus(row._id, "success")}>
+          <div className="action-buttons">
+            <button
+              className="btn approve"
+              onClick={() => updateStatus(row._id, "success")}
+            >
               Approve
             </button>
-            <button onClick={() => updateStatus(row._id, "rejected")}>
+            <button
+              className="btn reject"
+              onClick={() => updateStatus(row._id, "rejected")}
+            >
               Reject
             </button>
           </div>
@@ -138,10 +126,10 @@ function VerifyPayments() {
   ];
 
   return (
-    <div className="verify-payments-container">
-      <h2>Verify Payments</h2>
+    <>
+      <h2 className="page-title">Verify Payments</h2>
       <CustomTable rows={payments} columns={columns} />
-    </div>
+    </>
   );
 }
 

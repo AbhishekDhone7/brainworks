@@ -1,0 +1,91 @@
+.admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f8f9fa;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.admin-content h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+}
+
+.admin-role {
+  margin-top: 4px;
+  margin-bottom: 28px;
+  color: #777;
+  font-weight: 500;
+}
+
+.admin-widgets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.widget {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px 24px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  flex: 1 1 250px;
+  gap: 16px;
+  transition: transform 0.2s;
+}
+
+.widget:hover {
+  transform: translateY(-4px);
+}
+
+.widget-icon {
+  font-size: 32px;
+  color: #007bff;
+}
+
+.widget h3 {
+  margin: 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.widget p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Widget Colors */
+.widget.users .widget-icon {
+  color: #17a2b8;
+}
+
+.widget.payments .widget-icon {
+  color: #ffc107;
+}
+
+.widget.batches .widget-icon {
+  color: #28a745;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    flex-direction: column;
+  }
+
+  .admin-widgets {
+    flex-direction: column;
+  }
+
+  .widget {
+    width: 100%;
+  }
+}

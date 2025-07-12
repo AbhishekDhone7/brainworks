@@ -1,57 +1,79 @@
 .manage-batches-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 40px auto;
-  padding: 24px;
+  padding: 32px;
   background-color: #ffffff;
-  border: 1px solid #ddd;
   border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   font-family: "Segoe UI", sans-serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.header h1 {
-  font-size: 24px;
-  font-weight: 600;
   color: #333;
 }
 
+.header-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.header-admin h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+}
+
 .add-batch-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  font-weight: 500;
+  background-color: #0d6efd;
+  color: #fff;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease;
+  width: 200px;
 }
 
 .add-batch-btn:hover {
-  background-color: #0056b3;
+  background-color: #0a58ca;
 }
 
-/* Batch Form */
+/* Batch Form Styling */
 .batch-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin: 20px 0 30px;
+  gap: 20px 24px;
+  margin-bottom: 40px;
+  background-color: #f9f9f9;
+  padding: 24px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.batch-form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: #444;
 }
 
 .batch-form input,
 .batch-form textarea {
-  padding: 10px;
-  font-size: 14px;
+  padding: 12px;
+  font-size: 15px;
   border-radius: 6px;
   border: 1px solid #ccc;
   width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.batch-form input[type="file"] {
+  padding: 6px;
 }
 
 .batch-form textarea {
@@ -61,26 +83,55 @@
 
 .batch-form button[type="submit"] {
   grid-column: 1 / -1;
-  background-color: #28a745;
+  background-color: #198754;
   color: white;
   border: none;
-  padding: 10px 14px;
-  font-size: 15px;
-  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
 .batch-form button[type="submit"]:hover {
-  background-color: #218838;
+  background-color: #157347;
 }
 
-/* Active Batches */
+/* Keyword Styling */
+.keyword-input-wrapper {
+  grid-column: 1 / -1;
+}
+
+.keyword-list {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keyword-pill {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e0f0ff;
+  color: #004085;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.keyword-pill svg {
+  font-size: 12px;
+}
+
+/* Active Batches Section */
 .manage-batches-container h2 {
-  font-size: 20px;
-  margin-top: 20px;
-  margin-bottom: 12px;
-  color: #222;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  margin-top: 40px;
 }
 
 /* Delete Button */
@@ -88,13 +139,49 @@
   background-color: #dc3545;
   color: white;
   border: none;
-  padding: 6px 10px;
-  border-radius: 4px;
+  padding: 8px 10px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.2s ease;
 }
 
 .delete-btn:hover {
-  background-color: #c82333;
+  background-color: #bb2d3b;
+}
+
+/* Keywords Cell in Table */
+.keywords-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.keyword-pill-table {
+  background-color: #eaf4ff;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .batch-form {
+    grid-template-columns: 1fr;
+  }
+
+  .add-batch-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-admin {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .manage-batches-container {
+    padding: 20px;
+  }
 }

@@ -11,48 +11,47 @@ export const AuthProvider = ({ children }) => {
     isAdmin: false,
   });
 
-  const fetchAuth = async (type = "user") => {
-  setAuth((prev) => ({ ...prev, loading: true }));
+  const fetchAuth = async (type = "auto") => {
+    setAuth((prev) => ({ ...prev, loading: true }));
 
-  try {
-    if (type === "user" || type === "auto") {
-      const userRes = await axios.get(
-        `${process.env.REACT_APP_API_URL}/users/valid_user/me`,
-        { withCredentials: true }
-      );
-      setAuth({
-        loading: false,
-        isAuthenticated: true,
-        user: userRes.data.user,
-        isAdmin: false,
-      });
-      return;
-    }
-  } catch {}
+    try {
+      if (type === "user" || type === "auto") {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/users/valid_user/me`,
+          { withCredentials: true }
+        );
+        return setAuth({
+          loading: false,
+          isAuthenticated: true,
+          user: res.data.user,
+          isAdmin: false,
+        });
+      }
+    } catch {}
 
-  try {
-    if (type === "admin" || type === "auto") {
-      const adminRes = await axios.get(
-        `${process.env.REACT_APP_API_URL}/admin/valid_admin/me`,
-        { withCredentials: true }
-      );
-      setAuth({
-        loading: false,
-        isAuthenticated: true,
-        user: adminRes.data.admin,
-        isAdmin: true,
-      });
-      return;
-    }
-  } catch {
+    try {
+      if (type === "admin" || type === "auto") {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/admin/valid_admin/me`,
+          { withCredentials: true }
+        );
+        return setAuth({
+          loading: false,
+          isAuthenticated: true,
+          user: res.data.admin,
+          isAdmin: true,
+        });
+      }
+    } catch {}
+
+    // fallback (unauthorized)
     setAuth({
       loading: false,
       isAuthenticated: false,
       user: null,
       isAdmin: false,
     });
-  }
-};
+  };
 
   useEffect(() => {
     fetchAuth("auto");
@@ -68,8 +67,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    // Clear cookies
     document.cookie = "usertoken=; Max-Age=0; path=/";
     document.cookie = "admintoken=; Max-Age=0; path=/";
+
+    // Clear state
     setAuth({
       loading: false,
       isAuthenticated: false,

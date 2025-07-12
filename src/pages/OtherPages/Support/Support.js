@@ -1,12 +1,10 @@
 import React from "react";
 import "./SupportPage.css";
-import Header from "../HomePage/Header";
 import Footer from "../HomePage/Footer";
 
 const SupportPage = () => {
   return (
     <>
-      <Header />
       <div className="support-page">
         <div className="container">
           <h1>Support Center</h1>

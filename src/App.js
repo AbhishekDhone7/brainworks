@@ -4,6 +4,8 @@ import { AuthProvider } from "./context/AuthContext";
 // Common Components
 import HeaderDiv from "./components/Header";
 
+import SidebarLayout from "./layouts/SidebarLayout";
+
 // Auth Guards
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import PrivateRoute from "./components/auth/PrivateRoute";
@@ -32,6 +34,7 @@ import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/OtherPages/HomePage/Home";
 import AboutPage from "./pages/OtherPages/About/About";
 import SupportPage from "./pages/OtherPages/Support/Support";
+import AdminReport from "./pages/AdminPages/AdminReport";
 
 const App = () => {
   return (
@@ -48,81 +51,35 @@ const App = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/support" element={<SupportPage />} />
 
-          {/* Protected Student Routes */}
+          {/* Protected User Routes with Sidebar */}
           <Route
-            path="/student/dashboard"
             element={
               <ProtectedRoute>
-                <UserDashboard />
+                <SidebarLayout />
               </ProtectedRoute>
             }
-          />
-          <Route
-            path="/student/courses"
-            element={
-              <ProtectedRoute>
-                <StudentCource />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/student/upload-payment"
-            element={
-              <ProtectedRoute>
-                <AddPayment />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/student/payment-slip"
-            element={
-              <ProtectedRoute>
-                <PaymentSlips />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/student/profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
+          >
+            <Route path="/student/dashboard" element={<UserDashboard />} />
+            <Route path="/student/courses" element={<StudentCource />} />
+            <Route path="/student/upload-payment" element={<AddPayment />} />
+            <Route path="/student/payment-slip" element={<PaymentSlips />} />
+            <Route path="/student/profile" element={<ProfilePage />} />
+          </Route>
 
-          {/* Private Admin Routes */}
+          {/* Private Admin Routes with Sidebar */}
           <Route
-            path="/admin/dashboard"
             element={
               <PrivateRoute>
-                <AdminPanel />
+                <SidebarLayout />
               </PrivateRoute>
             }
-          />
-          <Route
-            path="/admin/manage-batches"
-            element={
-              <PrivateRoute>
-                <ManageBatches />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin/manage-students"
-            element={
-              <PrivateRoute>
-                <ManageStudents />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/admin/payments"
-            element={
-              <PrivateRoute>
-                <VerifyPayments />
-              </PrivateRoute>
-            }
-          />
+          >
+            <Route path="/admin/dashboard" element={<AdminPanel />} />
+            <Route path="/admin/manage-batches" element={<ManageBatches />} />
+            <Route path="/admin/manage-students" element={<ManageStudents />} />
+            <Route path="/admin/payments" element={<VerifyPayments />} />
+            <Route path="/admin/reports" element={<AdminReport />} />
+          </Route>
 
           {/* Fallback Route */}
           <Route path="*" element={<ErrorPage />} />

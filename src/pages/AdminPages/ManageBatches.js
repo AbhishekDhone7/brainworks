@@ -156,11 +156,11 @@ function ManageBatches() {
   }, []);
 
   return (
-    <div className="manage-batches-container">
-      <div className="header">
+    <>
+      <div className="header-admin ">
         <h1>Manage Batches</h1>
         <button className="add-batch-btn" title="Add Batch" onClick={() => setShowForm(!showForm)}>
-          <FontAwesomeIcon icon={faPlus} />
+          Add Batches <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
 
@@ -218,7 +218,7 @@ function ManageBatches() {
 
       <h2>Active Batches</h2>
       {loading ? <p>Loading batches...</p> : <CustomTable columns={columns} rows={batches} />}
-    </div>
+    </>
   );
 }
 
