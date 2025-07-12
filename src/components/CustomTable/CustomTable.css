@@ -10,8 +10,7 @@
   background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  position: relative; /* Important for dropdown positioning */
-  overflow: visible; /* Allow dropdowns to show */
+  position: relative;
 }
 
 /* -------------------- Column Controls -------------------- */
@@ -55,11 +54,7 @@
   overflow-y: auto;
   animation: fadeIn 0.2s ease-in-out;
 }
-/* .column-selector-div {
-  width: "100%";
-  display: "flex";
-  gap: "10px";
-} */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -78,10 +73,12 @@
   font-size: 14px;
   color: #333;
 }
+
 .hover-box:hover {
-  background-color: #f0f0f0; 
-  border-radius: 15px; 
+  background-color: #f0f0f0;
+  border-radius: 15px;
 }
+
 .column-selector input[type="checkbox"] {
   margin-right: 10px;
   transform: scale(1.1);
@@ -91,7 +88,7 @@
 .custom-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: auto;
+  table-layout: fixed; /* ✅ fix layout for column resizing */
 }
 
 .custom-table th,
@@ -102,6 +99,9 @@
   font-size: 14px;
   color: #333;
   vertical-align: middle;
+  white-space: nowrap;        /* ✅ prevent text wrapping */
+  overflow: hidden;           /* ✅ hide overflowed content */
+  text-overflow: ellipsis;    /* ✅ show ... if text overflows */
 }
 
 .custom-table th {
@@ -129,8 +129,21 @@
 .column-header {
   position: relative;
   text-align: left;
+  user-select: none; /* ✅ prevent text selection while resizing */
 }
 
+/* -------------------- Column Resizer Handle -------------------- */
+.column-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 5;
+}
+
+/* -------------------- Header Content Layout -------------------- */
 .header-content {
   display: flex;
   justify-content: space-between;
@@ -208,7 +221,7 @@
   background-color: #e4e4e4;
 }
 
-/* -------------------- Inline Filter Inputs (if used) -------------------- */
+/* -------------------- Inline Text Filter -------------------- */
 .custom-table input[type="text"] {
   width: 95%;
   padding: 6px 8px;

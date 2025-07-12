@@ -16,9 +16,16 @@ const CustomTable = ({ columns, rows }) => {
   const [filters, setFilters] = useState({});
   const [showColumnSelector, setShowColumnSelector] = useState(false);
   const [activeFilterMenu, setActiveFilterMenu] = useState(null);
+  const [columnWidths, setColumnWidths] = useState({});
 
   const columnSelectorRef = useRef(null);
   const filterMenuRef = useRef(null);
+  const resizingColRef = useRef(null);
+
+  useEffect(() => {
+    const savedWidths = JSON.parse(localStorage.getItem("customTableWidths") || "{}");
+    setColumnWidths(savedWidths);
+  }, []);
 
   const toggleColumn = (field) => {
     setVisibleColumns((prev) =>
@@ -39,47 +46,31 @@ const CustomTable = ({ columns, rows }) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
-  const filteredRows = useMemo(() => {
-    return rows.filter((row) =>
-      columns.every((col) => {
-        const filterValue = filters[col.field];
-        if (!filterValue) return true;
-        const rawValue =
-          col.valueGetter?.({ row }) ?? row[col.field]?.toString() ?? "";
-        return rawValue.toLowerCase().includes(filterValue.toLowerCase());
-      })
-    );
-  }, [filters, rows, columns]);
-
-  const sortedRows = useMemo(() => {
-    if (!sortConfig.field) return filteredRows;
-
-    const getSortValue = (row) => {
-      const col = columns.find((c) => c.field === sortConfig.field);
-      if (!col) return null;
-
-      let value = col.valueGetter ? col.valueGetter({ row }) : row[sortConfig.field];
-
-      // Clean string (like "₹5,000.75") → "5000.75"
-      const cleanedValue = String(value).replace(/[^\d.-]/g, "");
-      const num = parseFloat(cleanedValue);
-      if (!isNaN(num)) return num;
-
-      const date = new Date(value);
-      if (!isNaN(date.getTime())) return date.getTime();
-
-      return String(value).toLowerCase(); // fallback to string compare
+  const handleResizeStart = (e, field) => {
+    resizingColRef.current = {
+      startX: e.clientX,
+      startWidth: columnWidths[field] || e.target.parentElement.offsetWidth,
+      field,
     };
+    document.addEventListener("mousemove", handleResize);
+    document.addEventListener("mouseup", stopResize);
+  };
 
-    return [...filteredRows].sort((a, b) => {
-      const aValue = getSortValue(a);
-      const bValue = getSortValue(b);
+  const handleResize = (e) => {
+    if (!resizingColRef.current) return;
+    const { startX, startWidth, field } = resizingColRef.current;
+    const delta = e.clientX - startX;
+    const newWidth = Math.max(60, startWidth + delta);
+    const updatedWidths = { ...columnWidths, [field]: newWidth };
+    setColumnWidths(updatedWidths);
+    localStorage.setItem("customTableWidths", JSON.stringify(updatedWidths));
+  };
 
-      if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
-      return 0;
-    });
-  }, [filteredRows, sortConfig, columns]);
+  const stopResize = () => {
+    document.removeEventListener("mousemove", handleResize);
+    document.removeEventListener("mouseup", stopResize);
+    resizingColRef.current = null;
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -99,6 +90,42 @@ const CustomTable = ({ columns, rows }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const filteredRows = useMemo(() => {
+    return rows.filter((row) =>
+      columns.every((col) => {
+        const filterValue = filters[col.field];
+        if (!filterValue) return true;
+        const rawValue =
+          col.valueGetter?.({ row }) ?? row[col.field]?.toString() ?? "";
+        return rawValue.toLowerCase().includes(filterValue.toLowerCase());
+      })
+    );
+  }, [filters, rows, columns]);
+
+  const sortedRows = useMemo(() => {
+    if (!sortConfig.field) return filteredRows;
+
+    const getSortValue = (row) => {
+      const col = columns.find((c) => c.field === sortConfig.field);
+      if (!col) return null;
+      let value = col.valueGetter ? col.valueGetter({ row }) : row[sortConfig.field];
+      const cleanedValue = String(value).replace(/[^\d.-]/g, "");
+      const num = parseFloat(cleanedValue);
+      if (!isNaN(num)) return num;
+      const date = new Date(value);
+      if (!isNaN(date.getTime())) return date.getTime();
+      return String(value).toLowerCase();
+    };
+
+    return [...filteredRows].sort((a, b) => {
+      const aValue = getSortValue(a);
+      const bValue = getSortValue(b);
+      if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [filteredRows, sortConfig, columns]);
+
   return (
     <div className="custom-table-container">
       <div className="column-controls">
@@ -114,21 +141,12 @@ const CustomTable = ({ columns, rows }) => {
           {showColumnSelector && (
             <div className="column-selector">
               {columns.map((col) => (
-                <div
-                  key={col.field}
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    gap: "15px",
-                    padding: "0 15px",
-                  }}
-                  className="hover-box"
-                >
+                <div key={col.field} className="hover-box" style={{ display: "flex", gap: "12px" }}>
                   <input
                     type="checkbox"
                     checked={visibleColumns.includes(col.field)}
                     onChange={() => toggleColumn(col.field)}
-                    style={{ width: "12px", margin: 0 }}
+                    style={{ width: "14px" }}
                   />
                   <label>{col.headerName || col.field}</label>
                 </div>
@@ -144,7 +162,15 @@ const CustomTable = ({ columns, rows }) => {
             {columns
               .filter((col) => visibleColumns.includes(col.field))
               .map((col) => (
-                <th key={col.field} className="column-header">
+                <th
+                  key={col.field}
+                  className="column-header"
+                  style={{
+                    width: columnWidths[col.field]
+                      ? `${columnWidths[col.field]}px`
+                      : "150px", // default width
+                  }}
+                >
                   <div className="header-content">
                     <span onClick={() => handleFilterChange(col.field, "")}>
                       {col.headerName || col.field}
@@ -159,46 +185,50 @@ const CustomTable = ({ columns, rows }) => {
                       >
                         <FontAwesomeIcon icon={faFilter} />
                       </span>
-
-                      {activeFilterMenu === col.field && (
-                        <div className="filter-sort-menu" ref={filterMenuRef}>
-                          <div className="filter-section">
-                            <input
-                              type="text"
-                              placeholder="Filter"
-                              value={filters[col.field] || ""}
-                              onChange={(e) =>
-                                handleFilterChange(col.field, e.target.value)
-                              }
-                            />
-                          </div>
-
-                          <div className="sort-section">
-                            <button onClick={() => applySort(col.field, "asc")}>
-                              <FontAwesomeIcon
-                                icon={
-                                  ["amount", "date"].includes(col.field)
-                                    ? faSortAmountDown
-                                    : faSortAlphaDown
-                                }
-                              />{" "}
-                              Ascending
-                            </button>
-                            <button onClick={() => applySort(col.field, "desc")}>
-                              <FontAwesomeIcon
-                                icon={
-                                  ["amount", "date"].includes(col.field)
-                                    ? faSortAmountUp
-                                    : faSortAlphaUp
-                                }
-                              />{" "}
-                              Descending
-                            </button>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
+
+                  {activeFilterMenu === col.field && (
+                    <div className="filter-sort-menu" ref={filterMenuRef}>
+                      <div className="filter-section">
+                        <input
+                          type="text"
+                          placeholder="Filter"
+                          value={filters[col.field] || ""}
+                          onChange={(e) =>
+                            handleFilterChange(col.field, e.target.value)
+                          }
+                        />
+                      </div>
+                      <div className="sort-section">
+                        <button onClick={() => applySort(col.field, "asc")}>
+                          <FontAwesomeIcon
+                            icon={
+                              ["amount", "date"].includes(col.field)
+                                ? faSortAmountDown
+                                : faSortAlphaDown
+                            }
+                          />{" "}
+                          Ascending
+                        </button>
+                        <button onClick={() => applySort(col.field, "desc")}>
+                          <FontAwesomeIcon
+                            icon={
+                              ["amount", "date"].includes(col.field)
+                                ? faSortAmountUp
+                                : faSortAlphaUp
+                            }
+                          />{" "}
+                          Descending
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  <div
+                    className="column-resizer"
+                    onMouseDown={(e) => handleResizeStart(e, col.field)}
+                  />
                 </th>
               ))}
           </tr>

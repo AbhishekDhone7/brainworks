@@ -53,23 +53,23 @@ function VerifyPayments() {
       flex: 1,
       valueGetter: ({ row }) => row.userId?.phone || "",
     },
-    {
-      field: "profileImage",
-      headerName: "Profile",
-      flex: 1,
-      renderCell: ({ row }) =>
-        row.userId?.profileImage ? (
-          <img
-            src={`http://localhost:8009/uploads/${row.userId.profileImage}`}
-            alt="profile"
-            height={40}
-            width={40}
-            style={{ borderRadius: "50%", objectFit: "cover" }}
-          />
-        ) : (
-          "N/A"
-        ),
-    },
+    // {
+    //   field: "profileImage",
+    //   headerName: "Profile",
+    //   flex: 1,
+    //   renderCell: ({ row }) =>
+    //     row.userId?.profileImage ? (
+    //       <img
+    //         src={`http://localhost:8009/uploads/${row.userId.profileImage}`}
+    //         alt="profile"
+    //         height={40}
+    //         width={40}
+    //         style={{ borderRadius: "50%", objectFit: "cover" }}
+    //       />
+    //     ) : (
+    //       "N/A"
+    //     ),
+    // },
     {
       field: "paymentType",
       headerName: "Payment Type",

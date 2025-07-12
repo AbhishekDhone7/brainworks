@@ -8,8 +8,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { loading, user, isAuthenticated, isAdmin } = useAuthContext();
 
-
-
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       navigate("/"); // Redirect to login page if not authenticated
@@ -17,6 +15,7 @@ const Dashboard = () => {
   }, [loading, isAuthenticated, navigate]);
 
   if (loading) return <Spinner />;
+  console.log(loading)
 
   return (
     <div>
