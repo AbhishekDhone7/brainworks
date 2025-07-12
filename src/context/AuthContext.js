@@ -12,47 +12,47 @@ export const AuthProvider = ({ children }) => {
   });
 
   const fetchAuth = async (type = "user") => {
-    setAuth((prev) => ({ ...prev, loading: true }));
+  setAuth((prev) => ({ ...prev, loading: true }));
 
-    try {
-      if (type === "user" ) {
-        const userRes = await axios.get(
-          `${process.env.REACT_APP_API_URL}/users/valid_user/me`,
-          { withCredentials: true }
-        );
-        setAuth({
-          loading: false,
-          isAuthenticated: true,
-          user: userRes.data.user,
-          isAdmin: false,
-        });
-        return;
-      }
-    } catch {}
-
-    try {
-      if (type === "admin") {
-        const adminRes = await axios.get(
-          `${process.env.REACT_APP_API_URL}/admin/valid_admin/me`,
-          { withCredentials: true }
-        );
-        setAuth({
-          loading: false,
-          isAuthenticated: true,
-          user: adminRes.data.admin,
-          isAdmin: true,
-        });
-        return;
-      }
-    } catch {
+  try {
+    if (type === "user" || type === "auto") {
+      const userRes = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users/valid_user/me`,
+        { withCredentials: true }
+      );
       setAuth({
         loading: false,
-        isAuthenticated: false,
-        user: null,
+        isAuthenticated: true,
+        user: userRes.data.user,
         isAdmin: false,
       });
+      return;
     }
-  };
+  } catch {}
+
+  try {
+    if (type === "admin" || type === "auto") {
+      const adminRes = await axios.get(
+        `${process.env.REACT_APP_API_URL}/admin/valid_admin/me`,
+        { withCredentials: true }
+      );
+      setAuth({
+        loading: false,
+        isAuthenticated: true,
+        user: adminRes.data.admin,
+        isAdmin: true,
+      });
+      return;
+    }
+  } catch {
+    setAuth({
+      loading: false,
+      isAuthenticated: false,
+      user: null,
+      isAdmin: false,
+    });
+  }
+};
 
   useEffect(() => {
     fetchAuth("auto"); // Automatically check both types on load
