@@ -12,7 +12,7 @@
   border-radius: 8px;
   position: relative;
   z-index: 1;
-  min-height: 500px; 
+  min-height: 500px;
 }
 
 /* -------------------- Column Controls -------------------- */
@@ -113,6 +113,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 200px;
 }
 
 .custom-table th {
@@ -188,7 +189,7 @@
 /* -------------------- Filter & Sort Dropdown -------------------- */
 .filter-sort-menu {
   position: absolute;
-  top: 100%;
+  top: 0;
   right: 0;
   transform: translateY(4px);
   background: #fff;
@@ -299,4 +300,3 @@
   background-color: #c0392b;
   transform: scale(1.03);
 }
-

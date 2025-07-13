@@ -27,7 +27,7 @@
   list-style: none;
   padding: 0;
   position: fixed;
-  top: 100px; /* Below the fixed h2 */
+  top: 150px; /* Below the fixed h2 */
   left: 20px;
   width: 180px;
   max-height: calc(100vh - 120px);

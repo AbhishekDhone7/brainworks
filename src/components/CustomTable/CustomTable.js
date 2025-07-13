@@ -61,7 +61,7 @@ const CustomTable = ({ columns, rows }) => {
 
   const { startX, startWidth, field } = resizingColRef.current;
   const delta = e.clientX - startX;
-  const minWidth = 200;
+  const minWidth = 120;
   const maxWidth = 400;
   const newWidth = Math.min(Math.max(minWidth, startWidth + delta), maxWidth);
 

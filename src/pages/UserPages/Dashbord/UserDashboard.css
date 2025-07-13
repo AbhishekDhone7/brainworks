@@ -1,42 +1,108 @@
 .user-dashboard {
-  padding: 2rem;
-  font-family: "Segoe UI", sans-serif;
+  padding: 30px 20px;
+  background-color: #f5f6fa;
+  min-height: 100vh;
 }
 
 .welcome-box {
-  margin-bottom: 2rem;
+  background: #ffffff;
+  padding: 24px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
 
 .welcome-box h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: #2d3436;
+}
+
+.welcome-box p {
+  font-size: 16px;
+  color: #636e72;
 }
 
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 30px;
 }
 
 .dashboard-card {
-  background: #f8f9fa;
-  border: 1px solid #ddd;
+  flex: 1 1 220px;
+  max-width: 250px;
+  background: #ffffff;
+  padding: 20px;
   border-radius: 12px;
-  padding: 1.5rem;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .dashboard-card:hover {
-  background: #007bff;
-  color: white;
-  transform: translateY(-4px);
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: #2d3436;
+}
+
+.dashboard-card p {
+  font-size: 14px;
+  color: #636e72;
+}
+
+/* ===== Graph Styling ===== */
+
+.graph-section {
+  margin: 20px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  max-width: 1100px;
+  width: 90%;
+  transition: box-shadow 0.3s ease;
+}
+
+.graph-section:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.graph-section h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2d3436;
+  margin-bottom: 20px;
+  border-left: 4px solid #6c5ce7;
+  padding-left: 12px;
+}
+
+.note {
+  font-size: 14px;
+  margin-top: 12px;
+  color: #636e72;
+  font-style: italic;
+}
+
+/* Responsive grid for charts */
+.graph-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  justify-content: center;
+}
+
+@media (min-width: 1000px) {
+  .graph-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

@@ -1,0 +1,122 @@
+.student-course-page {
+  padding: 40px 20px;
+  background: #f1f3f6;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.student-course-page h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.loader {
+  text-align: center;
+  font-size: 18px;
+  color: #636e72;
+}
+
+.course-grid {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.course-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+}
+
+.course-card h3 {
+  font-size: 20px;
+  color: #0984e3;
+  margin-bottom: 10px;
+}
+
+.course-card p {
+  font-size: 14px;
+  color: #2d3436;
+  margin: 6px 0;
+}
+
+.attendance-badge {
+  margin-top: 8px;
+  background-color: #dfe6e9;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  display: inline-block;
+  color: #2d3436;
+  font-weight: bold;
+}
+
+.project-stats {
+  margin-top: 14px;
+}
+
+.project-stats strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #2c3e50;
+}
+
+.project-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.project-badge {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.project-badge.completed {
+  background-color: #00b894;
+}
+
+.project-badge.ongoing {
+  background-color: #fdcb6e;
+  color: #2d3436;
+}
+
+.project-badge.pending {
+  background-color: #d63031;
+}
+
+.project-badge.total {
+  background-color: #6c5ce7;
+}
+
+.status {
+  margin-top: 16px;
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.status.in-progress {
+  background-color: #e17055;
+}
+
+.status.completed {
+  background-color: #0984e3;
+}
